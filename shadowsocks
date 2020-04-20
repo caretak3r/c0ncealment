@@ -1,0 +1,41 @@
+#Usage
+ssserver -p 443 -k password -m aes-256-cfb
+
+#To run in the background:
+sudo ssserver -p 443 -k password -m aes-256-cfb --user nobody -d start
+
+#To stop:
+sudo ssserver -d stop
+
+#To check the log:
+sudo less /var/log/shadowsocks.log
+
+# Check all the options via -h. You can also use a Configuration file instead.
+
+# {ssserver - shadowsocks}
+
+# proxychains usage
+brew install proxychains-ng
+
+# write new config to ~/.proxychains/proxychains.conf
+cat <<EOT >> ~/.proxychains/proxychains.conf
+strict_chain
+proxy_dns 
+remote_dns_subnet 224
+tcp_read_time_out 15000
+tcp_connect_time_out 8000
+localnet 127.0.0.0/255.0.0.0
+quiet_mode
+
+[ProxyList]
+socks5  127.0.0.1 1080
+EOT
+
+#Then run command with proxychains. Examples:
+proxychains4 curl https://www.twitter.com/
+proxychains4 git push origin master
+
+#Or just proxify bash:
+proxychains4 bash
+curl https://www.twitter.com/
+git push origin master

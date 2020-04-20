@@ -1,0 +1,14 @@
+# on macOSx ensure brew and tor are installed and started
+brew install torsocks
+
+# when using `torify` you may run into `{protected}` binaries, so just copy them into another location in $PATH
+# copy {protected} bins into /usr/local/bin/: cp /usr/bin/ssh /usr/local/bin
+cp /usr/bin/ssh /usr/local/bin
+cp /usr/bin/curl /usr/local/bin
+
+# you SHOULD check if this is working correctly (using httpie here)
+# ipinfo.io for free API key, will show you tor|vpn|proxy|hosted info
+torify http https://ipinfo.io/json\?token\=$TOKEN
+
+# then ssh if you checked
+torify /usr/local/bin/ssh root@1.2.3.4 -i /tmp/id_rsa
